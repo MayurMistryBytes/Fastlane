@@ -1,0 +1,6 @@
+module Pods_FastlaneDemo_FastlaneDemoTests {
+  umbrella header "Pods-FastlaneDemo-FastlaneDemoTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
