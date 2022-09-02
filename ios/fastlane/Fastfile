@@ -11,10 +11,11 @@ platform :ios do
     changelog = ask('Type Changelog message:') if answer == "Yes"
     
     # Get latest certs appstore
-    match(type: 'appstore')
+    match(type: 'development')
     
-    increment_build_number(xcodeproj: "FastlaneDemo.xcworkspace")
-    build_app(scheme: "FastlaneDemo")
+    increment_build_number(xcodeproj: "FastlaneDemo.xcodeproj")
+    build_app(scheme: "FastlaneDemo",export_method:"development")
+   
     import_certificate(
       certificate_path: "./cert/ios_distribution-2.cer"
 )
