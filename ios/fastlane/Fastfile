@@ -1,0 +1,32 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  desc "This will also make sure the profile is up to date"  
+  lane :beta do
+    # UI.important "Important Message"
+    # UI.error "O NO!"
+    # UI.message "Basic blah"
+    answer = UI.select("Would you like to add a Changelog?", ["Yes", "No"])
+    changelog = ask('Type Changelog message:') if answer == "Yes"
+    
+    # Get latest certs appstore
+    match(type: 'appstore')
+    
+    increment_build_number(xcodeproj: "FastlaneDemo.xcworkspace")
+    build_app(scheme: "FastlaneDemo")
+    import_certificate(
+      certificate_path: "./cert/ios_distribution-2.cer"
+)
+    if changelog
+      upload_to_testflight(changelog: changelog)
+    else
+      upload_to_testflight(skip_waiting_for_build_processing: true)
+    end    
+    
+    slack(
+      message: "App successfully released",
+      channel: "#myAppChannel"
+    )    
+  end
+end
