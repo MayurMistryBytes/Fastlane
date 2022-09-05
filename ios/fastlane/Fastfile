@@ -11,13 +11,13 @@ platform :ios do
     changelog = ask('Type Changelog message:') if answer == "Yes"
     
     # Get latest certs appstore
-    match(type: 'development')
+    match(type: 'adhoc')
     
     increment_build_number(xcodeproj: "FastlaneDemo.xcodeproj")
-    build_app(scheme: "FastlaneDemo",export_method:"development")
+    build_app(scheme: "FastlaneDemo")
    
     import_certificate(
-      certificate_path: "./cert/ios_distribution-2.cer"
+      certificate_path: "./cert/development.cer"
 )
     if changelog
       upload_to_testflight(changelog: changelog)
